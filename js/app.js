@@ -50,16 +50,19 @@ form.addEventListener('submit', event => {
   fecthSongs(searchTerm);
 })
 
-const fetchLyrics = async (artist, songTitle) => {
-  const data = await fetchData(`${apiURL}/v1/${artist}/${songTitle}`);
-  const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
-
+const insertLyricsIntoPage = ({ lyrics, artist, songTitle }) => {
   songsContainer.innerHTML = `
     <li class="lyrics-container">
       <h2><strong>${songTitle}</strong> - ${artist}</h2>
       <p class="lyrics">${lyrics}</p>
     </li>
   `;
+}
+
+const fetchLyrics = async (artist, songTitle) => {
+  const data = await fetchData(`${apiURL}/v1/${artist}/${songTitle}`);
+  const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
+  insertLyricsIntoPage({ lyrics, artist, songTitle });
 }
 
 songsContainer.addEventListener('click', event => {
