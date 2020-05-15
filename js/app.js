@@ -15,7 +15,7 @@ const getMoreSongs = async (url) => {
   insertSongsIntoPage(data);
 }
 
-const insertNextAndPrevButtons = ({ prev, next }) => {
+const insertNextAndPrevButtons = ({ prev, next }) => {  
   prevAndNextContainer.innerHTML = `
     ${prev ? `<button class="btn" onClick="getMoreSongs('${prev}')">Anteriores</button>` : ''}
     ${next ? `<button class="btn" onClick="getMoreSongs('${next}')">Próximas</button>` : ''}
@@ -45,13 +45,14 @@ const fecthSongs = async (term) => {
 
 const handleFormSubmit = event => {
   event.preventDefault();
-  
+
   const searchTerm = searchInput.value.trim();
   searchInput.value = '';
   searchInput.focus();
 
   if (!searchTerm) {
     songsContainer.innerHTML = `<li class="warning-message">Por favor, digite um termo válido.</li>`;
+    prevAndNextContainer.innerHTML = '';
     return;
   }
 
