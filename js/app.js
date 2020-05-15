@@ -43,7 +43,7 @@ const fecthSongs = async (term) => {
   insertSongsIntoPage(data);
 }
 
-form.addEventListener('submit', event => {
+const handleFormSubmit = event => {
   event.preventDefault();
   const searchTerm = searchInput.value.trim();
 
@@ -53,7 +53,9 @@ form.addEventListener('submit', event => {
   }
 
   fecthSongs(searchTerm);
-})
+}
+
+form.addEventListener('submit', handleFormSubmit);
 
 const insertLyricsIntoPage = ({ lyrics, artist, songTitle }) => {
   songsContainer.innerHTML = `
@@ -70,7 +72,7 @@ const fetchLyrics = async (artist, songTitle) => {
   insertLyricsIntoPage({ lyrics, artist, songTitle });
 }
 
-songsContainer.addEventListener('click', event => {
+const handleSongsContainerClick = event => {
   const clickedElement = event.target;
 
   if (clickedElement.tagName === 'BUTTON') {
@@ -79,4 +81,6 @@ songsContainer.addEventListener('click', event => {
     prevAndNextContainer.innerHTML = '';
     fetchLyrics(artist, songTitle);
   }
-})
+}
+
+songsContainer.addEventListener('click', handleSongsContainerClick);
