@@ -45,7 +45,10 @@ const fecthSongs = async (term) => {
 
 const handleFormSubmit = event => {
   event.preventDefault();
+  
   const searchTerm = searchInput.value.trim();
+  searchInput.value = '';
+  searchInput.focus();
 
   if (!searchTerm) {
     songsContainer.innerHTML = `<li class="warning-message">Por favor, digite um termo válido.</li>`;
