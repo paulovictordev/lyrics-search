@@ -15,22 +15,27 @@ const getMoreSongs = async (url) => {
   insertSongsIntoPage(data);
 }
 
-const insertSongsIntoPage = songsInfo => {
-  songsContainer.innerHTML = songsInfo.data.map(song => `
+const insertNextAndPrevButtons = ({ prev, next }) => {
+  prevAndNextContainer.innerHTML = `
+    ${prev ? `<button class="btn" onClick="getMoreSongs('${prev}')">Anteriores</button>` : ''}
+    ${next ? `<button class="btn" onClick="getMoreSongs('${next}')">Próximas</button>` : ''}
+  `;
+}
+
+const insertSongsIntoPage = ({ data, prev, next }) => {
+  songsContainer.innerHTML = data.map(({ artist: { name }, title }) => `
     <li class="song">
-      <span class="song-artist"><strong>${song.artist.name}</strong> - ${song.title}</span>
-      <button class="btn" data-artist="${song.artist.name}" data-song-title="${song.title}">Ver letra</button>
+      <span class="song-artist"><strong>${name}</strong> - ${title}</span>
+      <button class="btn" data-artist="${name}" data-song-title="${title}">Ver letra</button>
     </li>
   `).join('');
 
-  if (songsInfo.prev || songsInfo.next) {
-    prevAndNextContainer.innerHTML = `
-      ${songsInfo.prev ? `<button class="btn" onClick="getMoreSongs('${songsInfo.prev}')">Anteriores</button>` : ''}
-      ${songsInfo.next ? `<button class="btn" onClick="getMoreSongs('${songsInfo.next}')">Próximas</button>` : ''}
-    `;
-
+  if (prev || next) {
+    insertNextAndPrevButtons({ prev, next });
     return;
   }
+
+  prevAndNextContainer.innerHTML = '';
 }
 
 const fecthSongs = async (term) => {
