@@ -10,8 +10,9 @@
   <header>
     <h1>Busca Letras</h1>
 
-    <form>
+    <form id="form">
       <input
+        autofocus
         id="search"
         type="text"
         placeholder="Insira o nome do artista ou a da música..."
@@ -19,5 +20,9 @@
       <button>Buscar</button>
     </form>
   </header>
+
+  <ul id="songs-container" class="songs-container"></ul>
+
+  <script src="./js/app.js"></script>
 </body>
 </html>

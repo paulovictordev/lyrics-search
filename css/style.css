@@ -78,3 +78,17 @@ form button {
   font-size: 16px;
   padding: 13px 30px;
 }
+
+.songs-container {
+  list-style-type: none;
+  padding: 0;
+  margin: 30px auto;
+  max-width: 100%;
+  width: 500px;
+  background-color: #1D1D1D;
+}
+
+.warning-message {
+  color: #EA2234;
+  text-align: center;
+}
