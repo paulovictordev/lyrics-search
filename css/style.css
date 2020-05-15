@@ -127,3 +127,13 @@ form button {
   opacity: .6;
   max-width: 400px;
 }
+
+.lyrics-container {
+  color: white;
+  opacity: .6;
+}
+
+.lyrics {
+  margin-top: 20px;
+  line-height: 1.5;
+}
