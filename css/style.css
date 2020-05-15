@@ -79,6 +79,14 @@ form button {
   padding: 13px 30px;
 }
 
+.btn {
+  background-color: #D23030;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  padding: 4px 10px;
+}
+
 .songs-container {
   list-style-type: none;
   padding: 0;
@@ -88,7 +96,20 @@ form button {
   background-color: #1D1D1D;
 }
 
+.song {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
 .warning-message {
   color: #EA2234;
   text-align: center;
+}
+
+.song-artist {
+  color: white;
+  opacity: .6;
+  max-width: 400px;
 }
