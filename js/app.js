@@ -3,22 +3,15 @@ const searchInput = document.querySelector('#search');
 const songsContainer = document.querySelector('#songs-container');
 const prevAndNextContainer = document.querySelector('#prev-and-next-container');
 
-const apiURL = `https://api.lyrics.ovh`;
-
-const fetchData = async (url) => {
-  const response = await fetch(url);
-  return await response.json();
-}
-
-const getMoreSongs = async (url) => {
-  const data = await fetchData(`https://cors-anywhere.herokuapp.com/${url}`);
+const handleMoreSongs = async (url) => {
+  const data = await getMoreSongs(url);
   insertSongsIntoPage(data);
 }
 
 const insertNextAndPrevButtons = ({ prev, next }) => {  
   prevAndNextContainer.innerHTML = `
-    ${prev ? `<button class="btn" onClick="getMoreSongs('${prev}')">Anteriores</button>` : ''}
-    ${next ? `<button class="btn" onClick="getMoreSongs('${next}')">Próximas</button>` : ''}
+    ${prev ? `<button class="btn" onClick="handleMoreSongs('${prev}')">Anteriores</button>` : ''}
+    ${next ? `<button class="btn" onClick="handleMoreSongs('${next}')">Próximas</button>` : ''}
   `;
 }
 
@@ -38,8 +31,14 @@ const insertSongsIntoPage = ({ data, prev, next }) => {
   prevAndNextContainer.innerHTML = '';
 }
 
-const fecthSongs = async (term) => {
-  const data = await fetchData(`${apiURL}/suggest/${term}`);
+const handleSongs = async (term) => {
+  const data = await fecthSongs(term);
+
+  if (data.total === 0) {
+    songsContainer.innerHTML = `<li class="warning-message">Por favor, digite um termo válido.</li>`;
+    prevAndNextContainer.innerHTML = '';
+    return;
+  }
   insertSongsIntoPage(data);
 }
 
@@ -56,7 +55,7 @@ const handleFormSubmit = event => {
     return;
   }
 
-  fecthSongs(searchTerm);
+  handleSongs(searchTerm);
 }
 
 form.addEventListener('submit', handleFormSubmit);
@@ -70,8 +69,13 @@ const insertLyricsIntoPage = ({ lyrics, artist, songTitle }) => {
   `;
 }
 
-const fetchLyrics = async (artist, songTitle) => {
-  const data = await fetchData(`${apiURL}/v1/${artist}/${songTitle}`);
+const handleLyrics = async (artist, songTitle) => {
+  const data = await fetchLyrics(artist, songTitle);
+
+  if (!data.lyrics) {
+    songsContainer.innerHTML = `<li class="warning-message">Letra indisponível! :(</li>`;
+    return;
+  }
   const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
   insertLyricsIntoPage({ lyrics, artist, songTitle });
 }
@@ -83,7 +87,7 @@ const handleSongsContainerClick = event => {
     const artist = clickedElement.getAttribute('data-artist');
     const songTitle = clickedElement.getAttribute('data-song-title');
     prevAndNextContainer.innerHTML = '';
-    fetchLyrics(artist, songTitle);
+    handleLyrics(artist, songTitle);
   }
 }
 
