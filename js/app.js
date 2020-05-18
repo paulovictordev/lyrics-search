@@ -31,11 +31,15 @@ const insertSongsIntoPage = ({ data, prev, next }) => {
   prevAndNextContainer.innerHTML = '';
 }
 
+const insertWarningMessage = message => {
+  songsContainer.innerHTML = `<li class="warning-message">${message}</li>`;
+}
+
 const handleSongs = async (term) => {
   const data = await fecthSongs(term);
 
   if (data.total === 0) {
-    songsContainer.innerHTML = `<li class="warning-message">Por favor, digite um termo válido.</li>`;
+    insertWarningMessage('Por favor, digite um termo válido.');
     prevAndNextContainer.innerHTML = '';
     return;
   }
@@ -50,7 +54,7 @@ const handleFormSubmit = event => {
   searchInput.focus();
 
   if (!searchTerm) {
-    songsContainer.innerHTML = `<li class="warning-message">Por favor, digite um termo válido.</li>`;
+    insertWarningMessage('Por favor, digite um termo válido.');
     prevAndNextContainer.innerHTML = '';
     return;
   }
@@ -73,9 +77,10 @@ const handleLyrics = async (artist, songTitle) => {
   const data = await fetchLyrics(artist, songTitle);
 
   if (!data.lyrics) {
-    songsContainer.innerHTML = `<li class="warning-message">Letra indisponível! :(</li>`;
+    insertWarningMessage('Letra indisponível! :(');
     return;
   }
+  
   const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
   insertLyricsIntoPage({ lyrics, artist, songTitle });
 }
